@@ -398,3 +398,10 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+
+# sensenet
+install-services-core.zip
+**/install-services-core.zip
+**/install-services-core
+**/App_Data/LocalIndex
+**/App_Data/Logs
