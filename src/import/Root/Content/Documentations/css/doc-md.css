@@ -1,0 +1,15 @@
+BODY {
+    font-family: Roboto, Helvetica, sans-serif, Arial, Larsseit;
+    padding: 40px 80px 40px 80px;
+    background-color: #FFF8F0
+}
+
+CODE {
+    font-family: Consolas;
+    background-color: #DDD
+}
+
+PRE {
+    padding: 8px 20px 8px 20px;
+    background-color: #DDD
+}
