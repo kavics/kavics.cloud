@@ -25,7 +25,7 @@ jobs:
     - name: Build and push to dockerhub
       uses: docker/build-push-action@v6
       with:
-       context: ./
-       file: /kavics.cloud/Dockerfile
+       context: src
+       file: src/kavics.cloud/Dockerfile
        push: true
        tags: kavics/kavics-cloud:latest
