@@ -8,6 +8,7 @@ using SenseNet.Extensions.DependencyInjection;
 using SenseNet.Services.Core.Authentication;
 using SnWebApplication.Api.Sql.TokenAuth.TokenValidator;
 using System.IdentityModel.Tokens.Jwt;
+using System.Reflection;
 using SenseNet.ContentRepository;
 using SenseNet.Search.Lucene29;
 
@@ -148,8 +149,12 @@ namespace kavics.cloud
 
                 endpoints.MapGet("/", async context =>
                 {
-                    await context.Response.WriteAsync("sensenet is listening. Visit https://sensenet.com for " +
-                                                      "more information on how to call the REST API.");
+                    var hostVersion = Assembly.GetExecutingAssembly().GetName().Version;
+                    var sn = AppDomain.CurrentDomain.GetAssemblies()
+                        .FirstOrDefault(a => a.GetName().Name == "SenseNet.Services.Core");
+                    var snVersion = sn?.GetName().Version ?? new Version(0, 0, 0);
+                    await context.Response.WriteAsync($"sensenet is listening." +
+                                                      $" sensenet version: {snVersion}, host version: {hostVersion}. ");
                 });
             });
             app.Use(next => context =>
