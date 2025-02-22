@@ -50,7 +50,7 @@ At this point, you have a webapp skeleton.
 
 ### Add sensenet references
 - Open a powershell console and navigate to the project directory (the "dir" shows the csproj file)
-- Execute the following lines
+- Execute the following lines (see alternatives at the end of this document)
 ``` powershell
 dotnet add package Microsoft.AspNetCore.Authentication.JwtBearer --version 8.0.11
 dotnet add package Microsoft.IdentityModel.Protocols.OpenIdConnect
@@ -103,75 +103,9 @@ With this, the integrated code base is complete, now it's time to configure and 
 1. Open the existing `appsettings.Development.json` (under the `appsettings.json`)
 1. Replace the entire code to the demo app's settings for development copied from [here](https://github.com/SenseNet/sensenet/blob/master/src/WebApps/SnWebApplication.Api.Sql.TokenAuth/appsettings.Development.json "appsettings.Development.json")
 
-### Configure authentication server
-Choose one of the two alternatives: use identity server or sensenet authentication server.
-
-#### Use identity server.
-This is in the `sn-identityserver` github repository. By default run this on the local machine and use this configuration:
-``` json
-// ...\SnWebApp1\appsettings.json
-{
-  "sensenet": {
-    ...
-    "authentication": {
-      "authServerType": "IdentityServer",
-      "authority": "https://localhost:44311",
-      "repositoryUrl": "https://localhost:44991",
-      "AddJwtCookie": true
-    },
-    ...
-  }
-}
-```
-The identityserver needs to be aware of the new web application, so it needs to be told that it needs to recognize new clients.
-By default, `launchSettings.json` on identityserver web contains a `"SelfHost"` branch with the following content:
-
-// sn-identityserver\SenseNet.IdentityServer4.Web
-``` json
-// sn-identityserver/src/SenseNet.IdentityServer4.Web/Properties/launchSettings.json
-"SelfHost": {
-  "commandName": "Project",
-  "launchBrowser": true,
-  "environmentVariables": {
-    "ASPNETCORE_ENVIRONMENT": "Development",
-    "sensenet__Clients__spa__RepositoryHosts__0__PublicHost": "https://localhost:44362",
-    "sensenet__Clients__adminui__RepositoryHosts__0__PublicHost": "https://localhost:44362"
-  },
-  "applicationUrl": "https://localhost:44311"
-},
-```
-This needs to be replaced with the URLs of the new application's clients (in this example, the your new app listens on port 7025):
-``` json
-"sensenet__Clients__spa__RepositoryHosts__0__PublicHost": "https://localhost:7025",
-"sensenet__Clients__adminui__RepositoryHosts__0__PublicHost": "https://localhost:7025"
-```
-It is also possible for the identityserver to listen to multiple applications at the same time, in which case the original clients do not need to be deleted (look at the numbers in the keys):
-``` json
-"sensenet__Clients__spa__RepositoryHosts__0__PublicHost": "https://localhost:44362",
-"sensenet__Clients__adminui__RepositoryHosts__0__PublicHost": "https://localhost:44362",
-"sensenet__Clients__spa__RepositoryHosts__1__PublicHost": "https://localhost:7025",
-"sensenet__Clients__adminui__RepositoryHosts__1__PublicHost": "https://localhost:7025"
-```
-#### Use sensenet authentication server.
-``` json
-// ...\SnWebApp1\appsettings.json
-{
-  "sensenet": {
-    ...
-    "authentication": {
-      "authServerType": "SNAuth",
-      "authority": "https://localhost:7088",
-      "repositoryUrl": "https://localhost:44991",
-      "AddJwtCookie": false
-    },
-    ...
-  }
-}
-// sn-auth/???
-?????
-```
 ### Configure launchSettings.json
-?????
+
+abcd
 
 ### Configure database
 The application requires a connectionString for an existing empty database. For historical reasons, the installer section is also required, which contains some data repetition based on the connectionstring.
@@ -234,38 +168,91 @@ Time: 00:00:02.8706496
 ```
 and so on. The entire process and additional information can be traced back in the log files: `/App_Data/Logs`
 
-.
+### Configure authentication server
+Choose one of the two alternatives: use identity server or sensenet authentication server.
 
-.
+#### Use identity server.
+This is in the `sn-identityserver` github repository. By default run this on the local machine and use this configuration:
+``` json
+// ...\SnWebApp1\appsettings.json
+{
+  "sensenet": {
+    ...
+    "authentication": {
+      "authServerType": "IdentityServer",
+      "authority": "https://localhost:44311",
+      "repositoryUrl": "https://localhost:44991",
+      "AddJwtCookie": true
+    },
+    ...
+  }
+}
+```
+The identityserver needs to be aware of the new web application, so it needs to be told that it needs to recognize new clients.
+By default, `launchSettings.json` on identityserver web contains a `"SelfHost"` branch with the following content:
 
-.
+// sn-identityserver\SenseNet.IdentityServer4.Web
+``` json
+// sn-identityserver/src/SenseNet.IdentityServer4.Web/Properties/launchSettings.json
+"SelfHost": {
+  "commandName": "Project",
+  "launchBrowser": true,
+  "environmentVariables": {
+    "ASPNETCORE_ENVIRONMENT": "Development",
+    "sensenet__Clients__spa__RepositoryHosts__0__PublicHost": "https://localhost:44362",
+    "sensenet__Clients__adminui__RepositoryHosts__0__PublicHost": "https://localhost:44362"
+  },
+  "applicationUrl": "https://localhost:44311"
+},
+```
+This needs to be replaced with the URLs of the new application's clients (in this example, the your new app listens on port 7025):
+``` json
+"sensenet__Clients__spa__RepositoryHosts__0__PublicHost": "https://localhost:7025",
+"sensenet__Clients__adminui__RepositoryHosts__0__PublicHost": "https://localhost:7025"
+```
+It is also possible for the identityserver to listen to multiple applications at the same time, in which case the original clients do not need to be deleted (look at the numbers in the keys):
+``` json
+"sensenet__Clients__spa__RepositoryHosts__0__PublicHost": "https://localhost:44362",
+"sensenet__Clients__adminui__RepositoryHosts__0__PublicHost": "https://localhost:44362",
+"sensenet__Clients__spa__RepositoryHosts__1__PublicHost": "https://localhost:7025",
+"sensenet__Clients__adminui__RepositoryHosts__1__PublicHost": "https://localhost:7025"
+```
+#### Use sensenet authentication server.
+This is in the sn-auth github repository. By default run this on the local machine and use this configuration:
 
-.
+``` json
+// ...\SnWebApp1\appsettings.json
+{
+  "sensenet": {
+    ...
+    "authentication": {
+      "authServerType": "SNAuth",
+      "authority": "https://localhost:7088",
+      "repositoryUrl": "https://localhost:44991",
+      "AddJwtCookie": false
+    },
+    ...
+  }
+}
+```
+The `sn-auth` nneds to know the new webapp and requires an ApiKey belonging to a user with sufficiently high permissions.
+The ApiKey can be obtained with a SQL script, the easiest way to do this is to run the following
+script in PowerShell:
+``` powershell
+Invoke-Sqlcmd -ServerInstance .\SQL2016 -Database kavics.cloud -Query 'SELECT Value, ExpirationDate FROM AccessTokens WHERE UserId = 1'
+```
 
-.
+After that configure the `sn-auth`
 
-.
-
-.
-
-.
-
-.
-
-.
-
-.
-
-.
-
-.
+UNDER CONSTRUCTION
 
 
 
-
-
--------------------------------------------- latest dev
-CD D:\projects\_documented\
+## Appendix
+A sensenet integrated into a new webapp can be created purely in PowerShell with the following script:
+``` powershell
+# -------------------------------- latest development --------------------------------
+CD D:\projects\_webapps_\
 MD NewSnApp
 CD NewSnApp
 dotnet new webapi --framework net8.0
@@ -285,9 +272,16 @@ dotnet add package SenseNet.Services.Core.Install
 dotnet add package SenseNet.Services.Core
 dotnet add package SenseNet.Services.Wopi
 dotnet add package SenseNet.WebHooks
+```
+If no version number is specified, the latest available version will be pulled, taking into account all active nuget-feeds. This is the *latest development* state.
 
--------------------------------------------- latest released
-CD D:\projects\_documented\
+The active nuget-feeds can be configured in the VS `Tools / Options / Nuget Package Manager`.
+See `Configuration Files` and `Package Sources tabs`.
+
+If the latest published packages are to be used, the nuget-feed must also be explicitly specified for sensenet packages. This is the *latest released* version:
+``` powershell
+# -------------------------------- last released --------------------------------
+CD D:\projects\_webapps_\
 MD NewSnApp
 CD NewSnApp
 dotnet new webapi --framework net8.0
