@@ -1,0 +1,72 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Vérnyomás bevitele</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .label {
+            display: inline-block;
+            width: 100px;
+            padding-bottom: 8px;
+        }
+
+        .small {
+            width: 50px;
+        }
+    </style>
+</head>
+<body>
+    <form id="form" method="post">
+        <span class="label">Vérnyomás:</span>
+        <input class="small" type="number" id="sys" name="sys" /> /
+        <input class="small" type="number" id="dia" name="dia" />
+        <br />
+        <span class="label">Pulzus:</span>
+        <input class="small" type="number" id="pul" name="pul" />
+        <br />
+        <span class="label"></span>
+        <input type="submit" value="Küldés" />
+    </form>
+    <script>
+        alert(document.cookie);
+
+        function getApiKeyFromCookie() {
+            const cookies = document.cookie.split("; ");
+            for (const cookie of cookies) {
+                const [name, value] = cookie.split("=");
+                if (name === "apikey2") {
+                    return value;
+                }
+            }
+            return null;
+        }
+
+        document.getElementById("form").addEventListener("submit", async function (event) {
+            event.preventDefault();
+
+            const apiKey = getApiKeyFromCookie();
+            const formData = new FormData(this); // Form adatok beolvasása
+
+            //alert("send: " + apiKey)
+            const response = await fetch("", {
+                method: "POST",
+                headers: {
+                    "apikey": apiKey,
+                },
+                body: formData
+            });
+            //const result = await response.json();
+            //console.log(result);
+            console.log(response);
+            // document.getElementById("sys").value = "";
+            // document.getElementById("dia").value = "";
+            // document.getElementById("pul").value = "";
+            document.getElementById("form").reset();
+        });
+
+    </script>
+</body>
+</html>

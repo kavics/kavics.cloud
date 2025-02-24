@@ -143,6 +143,9 @@ namespace kavics.cloud
             // [sensenet]: WOPI middleware
             app.UseSenseNetWopi();
 
+            // add WOPI middleware if the request contains a prefix
+            app.MapMiddlewareWhen<DataRecorderMiddleware>("/recorder", null, null, true);
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapRazorPages();
@@ -155,6 +158,11 @@ namespace kavics.cloud
                     var snVersion = sn?.GetName().Version ?? new Version(0, 0, 0);
                     await context.Response.WriteAsync($"sensenet is listening." +
                                                       $" sensenet version: {snVersion}, host version: {hostVersion}. ");
+                });
+
+                endpoints.MapGet("/recorder", async context =>
+                {
+                    await context.Response.WriteAsync("recorder");
                 });
             });
             app.Use(next => context =>
