@@ -1,0 +1,17 @@
+{
+  "ContentType": "Folder",
+  "ContentName": "UI",
+  "Fields": { },
+  "Permissions": {
+    "IsInherited": true,
+    "Entries": [
+      {
+        "Identity": "/Root/IMS/BuiltIn/Portal/Visitor",
+        "LocalOnly": false,
+        "Permissions": {
+          "Open": "allow"
+        }
+      }
+    ]
+  }
+}
