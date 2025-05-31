@@ -1,3 +1,6 @@
+# OBSOLETE
+## Use CreateSnWebAppFromTestProject.md instead
+
 # Create a copied WebApp
 
 A new sensenet-integrated webapp can be created from a copy of the sensenet github repository

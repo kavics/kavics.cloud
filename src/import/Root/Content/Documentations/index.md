@@ -5,6 +5,6 @@ Describes the easiest way to create a sensenet service integrated into a brand n
 
 ---
 ### **[How to release a new sensenet feature](NewFeatDevAndRelease.md "NewFeatDevAndRelease.md")**
-Shows how to develop a new feature for sensenet and a possible way to publish it
+Shows how to develop a new feature for sensenet and a possible way to publish it.
 
 ---

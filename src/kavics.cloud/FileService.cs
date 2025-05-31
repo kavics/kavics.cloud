@@ -38,6 +38,11 @@ public class FileService : IFileService
                 await WriteFileAsync(file, httpContext);
                 return;
             }
+            if (file.Name.EndsWith(".html", StringComparison.OrdinalIgnoreCase))
+            {
+                await WriteFileAsync(file, httpContext);
+                return;
+            }
         }
 
         httpContext.Response.StatusCode = 404;
