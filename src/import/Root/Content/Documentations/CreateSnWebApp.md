@@ -66,7 +66,7 @@ Here is an example for the element rewriting:
 
 ```
 Before
-  <PackageReference Include="..\..\OData\SenseNet.OData.csproj" />
+  <ProjectReference Include="..\..\OData\SenseNet.OData.csproj" />
 
 After
   <PackageReference Include="SenseNet.OData" Version="1.0.1.1" />

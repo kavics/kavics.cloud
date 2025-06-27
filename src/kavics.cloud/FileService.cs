@@ -28,6 +28,11 @@ public class FileService : IFileService
                 await ServeMarkdownFileAsync(file, httpContext);
                 return;
             }
+            if (file.Name.EndsWith(".png", StringComparison.OrdinalIgnoreCase))
+            {
+                await WriteFileAsync(file, httpContext);
+                return;
+            }
             if (file.Name.EndsWith(".css", StringComparison.OrdinalIgnoreCase))
             {
                 await WriteFileAsync(file, httpContext);
