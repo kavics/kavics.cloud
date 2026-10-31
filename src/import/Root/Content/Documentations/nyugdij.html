@@ -67,6 +67,10 @@
         <td id="weeks">-</td>
       </tr>
       <tr>
+        <td>Sprintekben</td>
+        <td id="sprints">-</td>
+      </tr>
+      <tr>
         <td>Órákban</td>
         <td id="hours">-</td>
       </tr>
@@ -79,9 +83,6 @@
         <td id="seconds">-</td>
       </tr>
     </table>
-    <p>
-        Ehhez körülbelül <span id="beers">-</span> (<span id="beerTrays">-</span> tálca) sörre lesz szükség.
-    </p>
   </div>
 
   <script>
@@ -102,8 +103,7 @@
       const totalDays = Math.floor(diff / 86400000);
       const months = Math.floor(totalDays / 30); // becslés
       const weeks = Math.floor(totalDays / 7);
-      const beers = weeks * 5;
-      const beerTrays = Math.floor(beers / 24);
+      const sprints = weeks / 2;
 
       const hours = Math.floor((diff % 86400000) / 3600000);
       const minutes = Math.floor((diff % 3600000) / 60000);
@@ -118,8 +118,7 @@
       document.getElementById("minutes").textContent = totalMinutes;
       document.getElementById("seconds").textContent = totalSeconds;
 
-      document.getElementById("beers").textContent = beers;
-      document.getElementById("beerTrays").textContent = beerTrays;
+      document.getElementById("sprints").textContent = sprints.toFixed(0);
     }
 
     updateCountdown();
