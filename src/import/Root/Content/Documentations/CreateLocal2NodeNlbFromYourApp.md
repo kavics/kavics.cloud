@@ -1,11 +1,10 @@
-# -- under construction --
-
 # Create two node NLB from your WebApp's binaries
 This doc describes how to make a debuggable two node NLB simulation from a sensenet based webapplication.
 
-## Prepare base app
+## CREATION
+### Prepare base app
 Make sure that the your webapp has launched successfully at least once. This guarantees that the database and local index are ready to work. This app will be the first node of the NLB simulation.
-## Extend the project file
+### Extend the project file
 Add the required packages to the project file
 ```powershell
 CD <yourapp>
@@ -57,7 +56,8 @@ Complete the configuration with the user-specific data in the user secrets
   }
 }
 ```
-
+### Compile
+Compile the webapp and run it at least once. After that, everything is ready to make replicated nodes.
 ## Create the second NLB node
 ### Create the second node's skeleton
 1. Create a folder for the NLB e.g. `D:\_NlbTest\yourapp-bin` will now be called `<nlbroot>` or `\`
@@ -91,8 +91,7 @@ Copy values from the original app's `secret.json` and write directly into the `<
         "ServiceUrl": "",
         "MessageExchange": ""
 ```
-
-## Create a start script
+### Create a start script
 To make it easier to run, create a startup script for node 2:
 `<nlbroot>\RUN-Node-2.ps1` that contains something like this:
 ``` powershell
@@ -104,7 +103,7 @@ dotnet <yourapp>.dll
 ```
 Note that the app-url, and location of the script and start directory are arbitrary.
 
-## Start every nodes
+### Start every nodes
 - Start the original app as **node-1** from the Visual Studio in debug mode (F5)
 - Run the **node-2** starter script: double click on the `<nlbroot>\RUN-Node-2.ps1`
 - If **AdminUI** is needed run the following script
@@ -112,3 +111,20 @@ Note that the app-url, and location of the script and start directory are arbitr
 CD <yoursources>\sn-identityserver\src\SenseNet.IdentityServer4.Web
 dotnet run
 ```
+## MODIFICATION
+Since node-1 is a developed application, the code base may change several times without being tracked in node-2. It is possible that we start node-1 as a single-leg several times. In this case, the index may also change without the other legs being informed about this. In such cases, node-2 must be updated before starting the two-leg environment again.
+### Update the code
+Remember that the appsettings.json on node-2 is not the same as on node-1, because the usersecret data is copied to the node-2 configuration. Therefore, it must be left untouched (or modified individually and manually). Therefore, the correct workflow is something like this:
+1. Navigate to the directory `<nlbroot>\node-2`.
+1. Delete everything EXCEPT the `appsettings.json`.
+1. Navigate to the directory `<yourapp>\bin\Debug\net8.0`.
+1. Select all items EXCEPT the `appsettings.json`.
+1. Copy selected items into the `<nlbroot>\node-2`.
+### Update the index
+If node-1 was running standalone, then index synchronization may also be required. This will be a simple copy.
+1. Navigate to the directory `<nlbroot>\node-2\App_Data\LocalIndex`.
+1. Delete the index directory (e.g. `20250701003654`)
+1. Navigate to the directory `<yourapp>\App_Data\LocalIndex`.
+1. Copy the one (or last) directory to the `<nlbroot>\node-2\App_Data\LocalIndex`.
+### Start again
+After that the nodes are synchronized, you can start every nodes.
