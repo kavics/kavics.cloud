@@ -13,3 +13,45 @@ PRE {
     padding: 8px 20px 8px 20px;
     background-color: #DDD
 }
+
+TABLE {
+    width: 100%;
+    margin: 24px 0;
+    border: 1px solid #D9DFCF;
+    border-spacing: 0;
+    border-radius: 8px;
+    overflow: hidden;
+    background-color: #FFF;
+    line-height: 1.35;
+}
+
+TH, TD {
+    padding: 4px 16px;
+    text-align: left;
+    vertical-align: top;
+}
+
+TD {
+    overflow-wrap: anywhere;
+}
+
+THEAD {
+    background-color: #334411;
+    color: #FFF8F0;
+}
+
+TH {
+    font-weight: 600;
+}
+
+THEAD CODE {
+    background-color: transparent;
+}
+
+TBODY TR:nth-child(even) {
+    background-color: #F3F5EE;
+}
+
+TBODY TR + TR > * {
+    border-top: 1px solid #D9DFCF;
+}

@@ -16,6 +16,9 @@ public class FileService : IFileService
 {
     private static readonly string DocumentRoot = "/Root/Content/Documentations";
     private static readonly string MarkdownTemplate = "/Root/System/Templates/Markdown.html";
+    private static readonly MarkdownPipeline Pipeline = new MarkdownPipelineBuilder()
+        .UseAdvancedExtensions()
+        .Build();
 
     public async Task ServeFileAsync(HttpContext httpContext)
     {
@@ -56,11 +59,8 @@ public class FileService : IFileService
     {
         var template = await GetTemplateAsync(httpContext.RequestAborted);
 
-        //var pipeline = new MarkdownPipelineBuilder()
-        //    .UseAdvancedExtensions()
-        //    .Build();
-        //var html = Markdown.ToHtml(RepositoryTools.GetStreamString(file.Binary.GetStream()), pipeline);
-        var renderedHtml = Markdown.ToHtml(ReadStringFromStream(file.Binary.GetStream()));
+        var renderedHtml = Markdown.ToHtml(RepositoryTools.GetStreamString(file.Binary.GetStream()), Pipeline);
+        //var renderedHtml = Markdown.ToHtml(ReadStringFromStream(file.Binary.GetStream()));
 
         var html = template
             .Replace("{path}", httpContext.Request.Path.Value?.Trim('/'))
